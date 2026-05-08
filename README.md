@@ -54,25 +54,36 @@ Este projeto foi desenvolvido para **[resolver problema X]**, permitindo **[resu
 ## Estrutura
 
 ```bash
-src/
- └── main/
-     └── java/
-         └── br/com/progirls/portal/
-             ├── PortalApplication.java  # ponto de inicialização da aplicação Spring Boot
-             ├── controller/             # camada responsável por expor os endpoints da API e receber as requisições HTTP
-             ├── service/                # camada que contém as regras de negócio e orquestra o fluxo da aplicação
-             ├── repository/             # camada de acesso a dados responsável por interagir com o banco de dados
-             ├── model/
-             │   ├── entity/             # representação das entidades persistidas no banco de dados
-             │   └── dto/                # objetos de transferência de dados entre as camadas e com o cliente
-             │       └── area/           # DTOs específicos do domínio de Área
-             │       └── categoria/      # DTOs específicos do domínio de Categoria
-             ├── mapper/                 # responsável por converter entre entidades e DTOs
-             └── exception/              # tratamento de exceções e padronização das respostas de erro da API
-         └── resources/
-            ├── application.yml          # configurações padrão da aplicação
-            ├── application-dev.yml      # configurações específicas para ambiente de desenvolvimento
-            └── application-test.yml     # configurações específicas para testes automatizados
+portal-edu-progirls-backend/
+├── compose.yml                          # infraestrutura local (PostgreSQL etc.) via Docker Compose
+├── docs/                                # documentação (DER, endpoints, etc.)
+└── portal/                              # módulo Spring Boot (Gradle)
+    ├── build.gradle
+    ├── settings.gradle
+    ├── gradlew
+    └── src/
+        ├── main/
+        │   ├── java/
+        │   │   └── br/com/progirls/api/portal/
+        │   │       ├── PortalApplication.java  # inicialização da aplicação Spring Boot
+        │   │       ├── controller/             # endpoints da API (camada web)
+        │   │       ├── service/                # regras de negócio/orquestração
+        │   │       ├── repository/             # acesso a dados (Spring Data)
+        │   │       ├── model/
+        │   │       │   ├── entity/             # entidades persistidas no banco de dados
+        │   │       │   └── dto/                # DTOs de entrada/saída
+        │   │       │       ├── area/
+        │   │       │       ├── categoria/
+        │   │       │       └── tag/
+        │   │       ├── mapper/                 # conversões entre entidades e DTOs
+        │   │       └── exception/              # exceções + padronização de respostas de erro
+        │   └── resources/
+        │       ├── application.yml             # configurações padrão
+        │       ├── application-dev.yml         # configurações de desenvolvimento
+        │       └── application-test.yml        # configurações de testes
+        └── test/
+            └── java/
+                └── br/com/progirls/api/portal/ # testes automatizados
 ```
 
 ---
@@ -83,7 +94,7 @@ src/
 | ------ |--------------------|-------------------|
 | GET    | /api/v1/areas      | Listar áreas      |
 | GET    | /api/v1/categorias | Listar categorias |
-
+| GET    | /api/v1/tags       | Listar tags       |
 ---
 
 ## Como executar
