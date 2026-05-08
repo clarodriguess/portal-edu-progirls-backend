@@ -74,6 +74,7 @@ portal-edu-progirls-backend/
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── area/
         │   │       │       ├── categoria/
+        │   │       │       ├── equipe/
         │   │       │       └── tag/
         │   │       ├── mapper/                 # conversões entre entidades e DTOs
         │   │       └── exception/              # exceções + padronização de respostas de erro
@@ -90,11 +91,18 @@ portal-edu-progirls-backend/
 
 ## Endpoints
 
-| Método | Endpoint           | Descrição         |
-| ------ |--------------------|-------------------|
-| GET    | /api/v1/areas      | Listar áreas      |
-| GET    | /api/v1/categorias | Listar categorias |
-| GET    | /api/v1/tags       | Listar tags       |
+| Método | Endpoint                | Descrição                                                       |
+|--------|-------------------------|-----------------------------------------------------------------|
+| GET    | /api/v1/conteudos       | Lista conteúdos com paginação e filtros (área, categoria, etc). |
+| GET    | /api/v1/conteudos/busca | Busca conteúdos por termo de texto (título/descrição).          |
+| GET    | /api/v1/areas           | Lista todas as áreas de conhecimento.                           |
+| GET    | /api/v1/categorias      | Lista as categorias de conteúdo.                                |
+| GET    | /api/v1/tecnologias     | Lista as tecnologias cadastradas.                               |
+| GET    | /api/v1/tags            | Lista as tags disponíveis.                                      |
+| GET    | /api/v1/roadmaps        | Lista roadmaps com paginação e filtro por nível.                |
+| GET    | /api/v1/roadmaps/{id}   | Retorna os detalhes e conteúdos de um roadmap específico.       |
+| GET    | /api/v1/referencias     | Lista referências externas com paginação.                       |
+| GET    | /api/v1/equipe          | Lista os membros da equipe do projeto.                          |
 ---
 
 ## Como executar
