@@ -72,9 +72,12 @@ portal-edu-progirls-backend/
         │   │       ├── model/
         │   │       │   ├── entity/             # entidades persistidas no banco de dados
         │   │       │   └── dto/                # DTOs de entrada/saída
+        │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
+        │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
         │   │       │       ├── area/
         │   │       │       ├── categoria/
         │   │       │       ├── equipe/
+        │   │       │       ├── referencia/
         │   │       │       └── tag/
         │   │       ├── mapper/                 # conversões entre entidades e DTOs
         │   │       └── exception/              # exceções + padronização de respostas de erro
