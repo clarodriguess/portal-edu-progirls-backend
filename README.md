@@ -67,6 +67,7 @@ src/
              │   └── dto/                # objetos de transferência de dados entre as camadas e com o cliente
              │       └── area/           # DTOs específicos do domínio de Área
              │       └── categoria/      # DTOs específicos do domínio de Categoria
+             │       └── tecnologia/      # DTOs específicos do domínio de Tecnologia
              ├── mapper/                 # responsável por converter entre entidades e DTOs
              └── exception/              # tratamento de exceções e padronização das respostas de erro da API
          └── resources/
@@ -79,10 +80,11 @@ src/
 
 ## Endpoints
 
-| Método | Endpoint           | Descrição         |
-| ------ |--------------------|-------------------|
-| GET    | /api/v1/areas      | Listar áreas      |
-| GET    | /api/v1/categorias | Listar categorias |
+| Método | Endpoint            | Descrição          |
+| ------ |---------------------|--------------------|
+| GET    | /api/v1/areas       | Listar áreas       |
+| GET    | /api/v1/categorias  | Listar categorias  |
+| GET    | /api/v1/tecnologias | Listar tecnologias |
 
 ---
 
