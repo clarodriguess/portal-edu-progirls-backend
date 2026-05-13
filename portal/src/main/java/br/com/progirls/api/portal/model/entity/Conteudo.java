@@ -28,13 +28,13 @@ public class Conteudo extends EntidadeBase {
     @Column(nullable = false)
     private String descricao;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String link;
 
     @Column(name = "imagem_url", nullable = false)
     private String imagemUrl;
 
-    @Column(name = "data_publicacao", nullable = false)
+    @Column(name = "data_publicacao")
     private LocalDateTime dataPublicacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
