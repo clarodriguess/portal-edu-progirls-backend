@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "areas")
+@Table(name = "area")
 @Getter
 @Setter
 @NoArgsConstructor

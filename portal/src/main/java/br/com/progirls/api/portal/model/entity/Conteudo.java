@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -35,7 +35,7 @@ public class Conteudo extends EntidadeBase {
     private String imagemUrl;
 
     @Column(name = "data_publicacao")
-    private LocalDateTime dataPublicacao;
+    private LocalDate dataPublicacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", nullable = false)
