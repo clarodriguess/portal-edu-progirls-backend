@@ -1,5 +1,6 @@
 package br.com.progirls.api.portal.model.dto.conteudo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -10,8 +11,10 @@ public record ConteudoFiltroRequestDTO(
         String categoriaId,
         List<String> tecnologiasIds,
         List<String> tagsIds,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate dataInicio,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate dataFim
 ) {
 
     public boolean hasAnyFilter() {

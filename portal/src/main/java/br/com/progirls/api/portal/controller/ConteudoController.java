@@ -1,10 +1,16 @@
 package br.com.progirls.api.portal.controller;
 
+import br.com.progirls.api.portal.model.dto.ErrorResponse;
 import br.com.progirls.api.portal.model.dto.PageResponseDTO;
 import br.com.progirls.api.portal.model.dto.conteudo.ConteudoFiltroRequestDTO;
 import br.com.progirls.api.portal.model.dto.conteudo.ConteudoResponseDTO;
 import br.com.progirls.api.portal.service.ConteudoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +33,34 @@ public class ConteudoController {
     public ConteudoController(ConteudoService conteudoService) {
         this.conteudoService = conteudoService;
     }
+
+    @Operation(summary = "Listar conteúdos", description = "Retorna uma lista paginada de conteúdos, com suporte a filtros opcionais")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista paginada de conteúdos retornada com sucesso",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PageResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Parâmetros inválidos (ex.: intervalo de datas inválido)",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Erro interno do servidor",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            )
+    })
 
     @GetMapping
     public ResponseEntity<PageResponseDTO<ConteudoResponseDTO>> buscarConteudosComFiltros(
