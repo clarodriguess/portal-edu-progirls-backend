@@ -1,6 +1,5 @@
 package br.com.progirls.api.portal.model.dto.conteudo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
