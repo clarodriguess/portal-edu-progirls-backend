@@ -71,16 +71,35 @@ portal-edu-progirls-backend/
         │   │       ├── repository/             # acesso a dados (Spring Data)
         │   │       ├── model/
         │   │       │   ├── entity/             # entidades persistidas no banco de dados
+        │   │       │   │   ├── EntidadeBase.java
+        │   │       │   │   ├── Area.java
+        │   │       │   │   ├── Categoria.java
+        │   │       │   │   ├── Conteudo.java
+        │   │       │   │   ├── ConteudoSpecification.java   # filtros dinâmicos (JPA Specification)
+        │   │       │   │   ├── Tag.java
+        │   │       │   │   ├── Tecnologia.java
+        │   │       │   │   ├── MembroEquipe.java
+        │   │       │   │   └── ReferenciaExterna.java
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
         │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
         │   │       │       ├── area/
         │   │       │       ├── categoria/
+        │   │       │       ├── conteudo/
         │   │       │       ├── equipe/
         │   │       │       ├── referencia/
-        │   │       │       └── tag/
-        │   │       ├── mapper/                 # conversões entre entidades e DTOs
+        │   │       │       ├── tag/
+        │   │       │       └── tecnologia/
+        │   │       ├── mapper/                 # conversões entre entidades e DTOs (MapStruct)
+        │   │       │   ├── AreaMapper.java
+        │   │       │   ├── CategoriaMapper.java
+        │   │       │   ├── ConteudoMapper.java
+        │   │       │   ├── MembroEquipeMapper.java
+        │   │       │   ├── ReferenciaExternaMapper.java
+        │   │       │   ├── TagMapper.java
+        │   │       │   └── TecnologiaMapper.java
         │   │       └── exception/              # exceções + padronização de respostas de erro
+        │   │           └── GlobalExceptionHandler.java
         │   └── resources/
         │       ├── application.yml             # configurações padrão
         │       ├── application-dev.yml         # configurações de desenvolvimento
