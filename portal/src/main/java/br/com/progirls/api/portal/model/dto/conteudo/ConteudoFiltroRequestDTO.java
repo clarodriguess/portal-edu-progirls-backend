@@ -6,19 +6,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record ConteudoFiltroRequestDTO(
-        String areaId,
-        String categoriaId,
-        List<String> tecnologiasIds,
-        List<String> tagsIds,
+
+        List<Long> areasIds,
+        List<Long> categoriasIds,
+        List<Long> tecnologiasIds,
+        List<Long> tagsIds,
+
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate dataInicio,
+
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         LocalDate dataFim
 ) {
 
     public boolean hasAnyFilter() {
-        return areaId != null
-                || categoriaId != null
+        return (areasIds != null && !areasIds.isEmpty())
+                || (categoriasIds != null && !categoriasIds.isEmpty())
                 || (tecnologiasIds != null && !tecnologiasIds.isEmpty())
                 || (tagsIds != null && !tagsIds.isEmpty())
                 || dataInicio != null

@@ -41,10 +41,14 @@ class ConteudoServiceTest {
 	@Test
 	@DisplayName("Deve listar conteúdos paginados")
 	void deveListarConteudosPaginados() {
+
 		Pageable pageable = PageRequest.of(0, 10);
+
 		Conteudo conteudo = new Conteudo();
 		conteudo.setTitulo("Título");
-		Page<Conteudo> pageEntidades = new PageImpl<>(List.of(conteudo), pageable, 1);
+
+		Page<Conteudo> pageEntidades =
+				new PageImpl<>(List.of(conteudo), pageable, 1);
 
 		ConteudoResponseDTO dto = new ConteudoResponseDTO(
 				1L,
@@ -59,13 +63,21 @@ class ConteudoServiceTest {
 				List.of()
 		);
 
-		when(conteudoRepository.findAll(pageable)).thenReturn(pageEntidades);
-		when(conteudoMapper.toDto(conteudo)).thenReturn(dto);
+		when(conteudoRepository.findAll(pageable))
+				.thenReturn(pageEntidades);
 
-		Page<ConteudoResponseDTO> resultado = conteudoService.listarConteudosPaginados(pageable);
+		when(conteudoMapper.toDto(conteudo))
+				.thenReturn(dto);
 
-		assertThat(resultado.getContent()).containsExactly(dto);
-		assertThat(resultado.getTotalElements()).isEqualTo(1);
+		Page<ConteudoResponseDTO> resultado =
+				conteudoService.listarConteudosPaginados(pageable);
+
+		assertThat(resultado.getContent())
+				.containsExactly(dto);
+
+		assertThat(resultado.getTotalElements())
+				.isEqualTo(1);
+
 		verify(conteudoRepository).findAll(pageable);
 		verify(conteudoMapper).toDto(conteudo);
 	}
@@ -73,37 +85,86 @@ class ConteudoServiceTest {
 	@Test
 	@DisplayName("Deve retornar página vazia ao listar conteúdos paginados quando não houver registros")
 	void deveRetornarPaginaVaziaAoListarConteudosPaginados() {
+
 		Pageable pageable = PageRequest.of(0, 10);
-		Page<Conteudo> pageVazia = new PageImpl<>(List.of(), pageable, 0);
 
-		when(conteudoRepository.findAll(pageable)).thenReturn(pageVazia);
+		Page<Conteudo> pageVazia =
+				new PageImpl<>(List.of(), pageable, 0);
 
-		Page<ConteudoResponseDTO> resultado = conteudoService.listarConteudosPaginados(pageable);
+		when(conteudoRepository.findAll(pageable))
+				.thenReturn(pageVazia);
+
+		Page<ConteudoResponseDTO> resultado =
+				conteudoService.listarConteudosPaginados(pageable);
 
 		assertThat(resultado.getContent()).isEmpty();
 		assertThat(resultado.getTotalElements()).isZero();
+
 		verify(conteudoRepository).findAll(pageable);
+
 		verifyNoInteractions(conteudoMapper);
 	}
 
 	@Test
 	@DisplayName("Deve lançar IllegalArgumentException quando dataInicio for após dataFim")
 	void deveLancarExcecaoQuandoDataInicioForAposDataFim() {
-		Pageable pageable = PageRequest.of(0, 10);
-		ConteudoFiltroRequestDTO filtrosInvalidos = new ConteudoFiltroRequestDTO(
-				null,
-				null,
-				null,
-				null,
-				LocalDate.of(2026, 2, 1),
-				LocalDate.of(2026, 1, 1)
-		);
 
-		assertThatThrownBy(() -> conteudoService.buscarConteudosComFiltros(pageable, filtrosInvalidos))
+		Pageable pageable = PageRequest.of(0, 10);
+
+		ConteudoFiltroRequestDTO filtrosInvalidos =
+				new ConteudoFiltroRequestDTO(
+						null,
+						null,
+						null,
+						null,
+						LocalDate.of(2026, 2, 1),
+						LocalDate.of(2026, 1, 1)
+				);
+
+		assertThatThrownBy(() ->
+				conteudoService.buscarConteudosComFiltros(
+						pageable,
+						filtrosInvalidos
+				)
+		)
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("data de início");
 
 		verifyNoInteractions(conteudoRepository);
 		verifyNoInteractions(conteudoMapper);
+	}
+
+	@Test
+	@DisplayName("Deve identificar quando existem filtros preenchidos")
+	void deveRetornarTrueQuandoExistiremFiltros() {
+
+		ConteudoFiltroRequestDTO filtros =
+				new ConteudoFiltroRequestDTO(
+						List.of(1L, 2L),
+						null,
+						null,
+						null,
+						null,
+						null
+				);
+
+		assertThat(filtros.hasAnyFilter()).isTrue();
+	}
+
+	@Test
+	@DisplayName("Deve identificar quando não existem filtros preenchidos")
+	void deveRetornarFalseQuandoNaoExistiremFiltros() {
+
+		ConteudoFiltroRequestDTO filtros =
+				new ConteudoFiltroRequestDTO(
+						null,
+						null,
+						null,
+						null,
+						null,
+						null
+				);
+
+		assertThat(filtros.hasAnyFilter()).isFalse();
 	}
 }

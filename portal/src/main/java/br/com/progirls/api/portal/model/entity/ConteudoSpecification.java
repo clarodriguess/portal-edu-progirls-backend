@@ -5,56 +5,81 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConteudoSpecification {
-    public static Specification<Conteudo> comFiltros(ConteudoFiltroRequestDTO filtros) {
-        if (filtros == null) {
+
+    public static Specification<Conteudo> comFiltros(
+            ConteudoFiltroRequestDTO filtros
+    ) {
+
+        if (filtros == null || !filtros.hasAnyFilter()) {
             return (root, query, cb) -> cb.conjunction();
         }
 
-        final String areaId = filtros.areaId();
-        final String categoriaId = filtros.categoriaId();
-        final List<String> tecnologiasIds = filtros.tecnologiasIds();
-        final List<String> tagsIds = filtros.tagsIds();
-        final LocalDate dataInicio = filtros.dataInicio();
-        final LocalDate dataFim = filtros.dataFim();
-
         return (root, query, cb) -> {
+
             List<Predicate> predicates = new ArrayList<>();
 
-            if (areaId != null) {
-                predicates.add(cb.equal(root.get("area").get("id"), areaId));
+            if (query != null) {
+                query.distinct(true);
             }
 
-            if (categoriaId != null) {
-                predicates.add(cb.equal(root.get("categoria").get("id"), categoriaId));
+            if (filtros.areasIds() != null && !filtros.areasIds().isEmpty()) {
+                predicates.add(
+                        root.get("area")
+                                .get("id")
+                                .in(filtros.areasIds())
+                );
             }
 
-            if (tecnologiasIds != null && !tecnologiasIds.isEmpty()) {
-                Join<Conteudo, Tecnologia> tecnologiaJoin = root.join("tecnologias");
-                predicates.add(tecnologiaJoin.get("id").in(tecnologiasIds));
-                if (query != null) {
-                    query.distinct(true);
-                }
+            if (filtros.categoriasIds() != null && !filtros.categoriasIds().isEmpty()) {
+                predicates.add(
+                        root.get("categoria")
+                                .get("id")
+                                .in(filtros.categoriasIds())
+                );
             }
 
-            if (tagsIds != null && !tagsIds.isEmpty()) {
-                Join<Conteudo, Tag> tagJoin = root.join("tags");
-                predicates.add(tagJoin.get("id").in(tagsIds));
-                if (query != null) {
-                    query.distinct(true);
-                }
+            if (filtros.tecnologiasIds() != null && !filtros.tecnologiasIds().isEmpty()) {
+
+                Join<Conteudo, Tecnologia> tecnologiaJoin =
+                        root.join("tecnologias");
+
+                predicates.add(
+                        tecnologiaJoin.get("id")
+                                .in(filtros.tecnologiasIds())
+                );
             }
 
-            if (dataInicio != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("dataPublicacao"), dataInicio));
+            if (filtros.tagsIds() != null && !filtros.tagsIds().isEmpty()) {
+
+                Join<Conteudo, Tag> tagJoin =
+                        root.join("tags");
+
+                predicates.add(
+                        tagJoin.get("id")
+                                .in(filtros.tagsIds())
+                );
             }
 
-            if (dataFim != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("dataPublicacao"), dataFim));
+            if (filtros.dataInicio() != null) {
+                predicates.add(
+                        cb.greaterThanOrEqualTo(
+                                root.get("dataPublicacao"),
+                                filtros.dataInicio()
+                        )
+                );
+            }
+
+            if (filtros.dataFim() != null) {
+                predicates.add(
+                        cb.lessThanOrEqualTo(
+                                root.get("dataPublicacao"),
+                                filtros.dataFim()
+                        )
+                );
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
