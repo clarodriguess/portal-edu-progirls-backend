@@ -54,38 +54,77 @@ Este projeto foi desenvolvido para **[resolver problema X]**, permitindo **[resu
 ## Estrutura
 
 ```bash
-src/
- └── main/
-     └── java/
-         └── br/com/progirls/portal/
-             ├── PortalApplication.java  # ponto de inicialização da aplicação Spring Boot
-             ├── controller/             # camada responsável por expor os endpoints da API e receber as requisições HTTP
-             ├── service/                # camada que contém as regras de negócio e orquestra o fluxo da aplicação
-             ├── repository/             # camada de acesso a dados responsável por interagir com o banco de dados
-             ├── model/
-             │   ├── entity/             # representação das entidades persistidas no banco de dados
-             │   └── dto/                # objetos de transferência de dados entre as camadas e com o cliente
-             │       └── area/           # DTOs específicos do domínio de Área
-             │       └── categoria/      # DTOs específicos do domínio de Categoria
-             │       └── tecnologia/      # DTOs específicos do domínio de Tecnologia
-             ├── mapper/                 # responsável por converter entre entidades e DTOs
-             └── exception/              # tratamento de exceções e padronização das respostas de erro da API
-         └── resources/
-            ├── application.yml          # configurações padrão da aplicação
-            ├── application-dev.yml      # configurações específicas para ambiente de desenvolvimento
-            └── application-test.yml     # configurações específicas para testes automatizados
+portal-edu-progirls-backend/
+├── compose.yml                          # infraestrutura local (PostgreSQL etc.) via Docker Compose
+├── docs/                                # documentação (DER, endpoints, etc.)
+└── portal/                              # módulo Spring Boot (Gradle)
+    ├── build.gradle
+    ├── settings.gradle
+    ├── gradlew
+    └── src/
+        ├── main/
+        │   ├── java/
+        │   │   └── br/com/progirls/api/portal/
+        │   │       ├── PortalApplication.java  # inicialização da aplicação Spring Boot
+        │   │       ├── controller/             # endpoints da API (camada web)
+        │   │       ├── service/                # regras de negócio/orquestração
+        │   │       ├── repository/             # acesso a dados (Spring Data)
+        │   │       ├── model/
+        │   │       │   ├── entity/             # entidades persistidas no banco de dados
+        │   │       │   │   ├── EntidadeBase.java
+        │   │       │   │   ├── Area.java
+        │   │       │   │   ├── Categoria.java
+        │   │       │   │   ├── Conteudo.java
+        │   │       │   │   ├── ConteudoSpecification.java   # filtros dinâmicos (JPA Specification)
+        │   │       │   │   ├── Tag.java
+        │   │       │   │   ├── Tecnologia.java
+        │   │       │   │   ├── MembroEquipe.java
+        │   │       │   │   └── ReferenciaExterna.java
+        │   │       │   └── dto/                # DTOs de entrada/saída
+        │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
+        │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
+        │   │       │       ├── area/
+        │   │       │       ├── categoria/
+        │   │       │       ├── conteudo/
+        │   │       │       ├── equipe/
+        │   │       │       ├── referencia/
+        │   │       │       ├── tag/
+        │   │       │       └── tecnologia/
+        │   │       ├── mapper/                 # conversões entre entidades e DTOs (MapStruct)
+        │   │       │   ├── AreaMapper.java
+        │   │       │   ├── CategoriaMapper.java
+        │   │       │   ├── ConteudoMapper.java
+        │   │       │   ├── MembroEquipeMapper.java
+        │   │       │   ├── ReferenciaExternaMapper.java
+        │   │       │   ├── TagMapper.java
+        │   │       │   └── TecnologiaMapper.java
+        │   │       └── exception/              # exceções + padronização de respostas de erro
+        │   │           └── GlobalExceptionHandler.java
+        │   └── resources/
+        │       ├── application.yml             # configurações padrão
+        │       ├── application-dev.yml         # configurações de desenvolvimento
+        │       └── application-test.yml        # configurações de testes
+        └── test/
+            └── java/
+                └── br/com/progirls/api/portal/ # testes automatizados
 ```
 
 ---
 
 ## Endpoints
 
-| Método | Endpoint            | Descrição          |
-| ------ |---------------------|--------------------|
-| GET    | /api/v1/areas       | Listar áreas       |
-| GET    | /api/v1/categorias  | Listar categorias  |
-| GET    | /api/v1/tecnologias | Listar tecnologias |
-
+| Método | Endpoint                | Descrição                                                       |
+|--------|-------------------------|-----------------------------------------------------------------|
+| GET    | /api/v1/conteudos       | Lista conteúdos com paginação e filtros (área, categoria, etc). |
+| GET    | /api/v1/conteudos/busca | Busca conteúdos por termo de texto (título/descrição).          |
+| GET    | /api/v1/areas           | Lista todas as áreas de conhecimento.                           |
+| GET    | /api/v1/categorias      | Lista as categorias de conteúdo.                                |
+| GET    | /api/v1/tecnologias     | Lista as tecnologias cadastradas.                               |
+| GET    | /api/v1/tags            | Lista as tags disponíveis.                                      |
+| GET    | /api/v1/roadmaps        | Lista roadmaps com paginação e filtro por nível.                |
+| GET    | /api/v1/roadmaps/{id}   | Retorna os detalhes e conteúdos de um roadmap específico.       |
+| GET    | /api/v1/referencias     | Lista referências externas com paginação.                       |
+| GET    | /api/v1/equipe          | Lista os membros da equipe do projeto.                          |
 ---
 
 ## Como executar

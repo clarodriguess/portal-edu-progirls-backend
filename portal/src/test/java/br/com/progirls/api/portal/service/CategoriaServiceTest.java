@@ -13,13 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -52,36 +49,40 @@ class CategoriaServiceTest {
     @Test
     @DisplayName("Deve retornar lista de categorias quando existirem registros")
     void deveRetornarListaDeCategoriasQuandoExistiremRegistros() {
-        // arrange
         when(categoriaRepository.findAllCategoriasSorted()).thenReturn(List.of(categoria));
         when(categoriaMapper.toDTO(categoria)).thenReturn(categoriaResponseDTO);
 
-        // act
         List<CategoriaResponseDTO> categorias = categoriaService.listar();
 
-        // assert
-        assertNotNull(categorias);
-        assertEquals(1, categorias.size());
-        assertEquals("Artigo", categorias.get(0).nome());
+        assertThat(categorias)
+                .hasSize(1)
+                .containsExactly(categoriaResponseDTO);
 
-        verify(categoriaRepository, times(1)).findAllCategoriasSorted();
-        verify(categoriaMapper, times(1)).toDTO(categoria);
+        verify(categoriaRepository).findAllCategoriasSorted();
+        verify(categoriaMapper).toDTO(categoria);
     }
 
     @Test
     @DisplayName("Deve retornar lista vazia quando não houver registros")
     void deveRetornarListaVaziaQuandoNaoHouverRegistros() {
-        // arrange
-        when(categoriaRepository.findAllCategoriasSorted()).thenReturn(Collections.emptyList());
+        when(categoriaRepository.findAllCategoriasSorted()).thenReturn(List.of());
 
-        // act
         List<CategoriaResponseDTO> categorias = categoriaService.listar();
 
-        // assert
-        assertNotNull(categorias);
-        assertTrue(categorias.isEmpty());
+        assertThat(categorias).isEmpty();
 
-        verify(categoriaRepository, times(1)).findAllCategoriasSorted();
+        verify(categoriaRepository).findAllCategoriasSorted();
+        verifyNoInteractions(categoriaMapper);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção quando ocorrer erro ao buscar categorias")
+    void deveLancarExcecaoQuandoOcorrerErroAoBuscarCategorias() {
+        when(categoriaRepository.findAllCategoriasSorted()).thenThrow(new RuntimeException("Falha ao acessar banco"));
+
+        assertThatThrownBy(() -> categoriaService.listar()).isInstanceOf(RuntimeException.class);
+
+        verify(categoriaRepository).findAllCategoriasSorted();
         verifyNoInteractions(categoriaMapper);
     }
 }
