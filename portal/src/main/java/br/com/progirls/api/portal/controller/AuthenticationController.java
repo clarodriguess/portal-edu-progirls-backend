@@ -1,6 +1,9 @@
 package br.com.progirls.api.portal.controller;
 
 import br.com.progirls.api.portal.security.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,11 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    @Operation(summary = "Autenticar usuário e gerar token", description = "Realiza a autenticação do usuário com credenciais básicas e retorna um token JWT válido para acesso às demais rotas protegidas da API.", responses = {
+            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida. Token retornado com sucesso."),
+            @ApiResponse(responseCode = "401", description = "Falha na autenticação. Credenciais inválidas ou ausentes.")
+    })
+    @SecurityRequirement(name = "basicAuth")
     @PostMapping
     public ResponseEntity<?> authenticate(Authentication authentication) {
         String token = authenticationService.authenticate(authentication);

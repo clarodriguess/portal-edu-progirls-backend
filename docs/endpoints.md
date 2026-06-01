@@ -4,7 +4,25 @@
 **Versão:** v1  
 **Base URL:** `/api/v1`  
 **Responsável:** Natália S. Gomes | Líder Técnica  
-**Escopo:** MVP (somente leitura - GET)
+**Escopo:** MVP (somente leitura - GET) + autenticação (login)
+
+---
+
+## Autenticação
+
+### POST `/api/v1/auth/login`
+
+**Descrição:** Realiza login via **Basic Authentication** e retorna um token **JWT**.
+
+**Headers:**
+
+* `Authorization: Basic base64(nomeUsuario:senha)`
+
+**Status HTTP:**
+
+* `200 OK` → credenciais válidas
+* `401 Unauthorized` → credenciais ausentes ou inválidas
+* `403 Forbidden` → usuário desativado (ou acesso negado)
 
 ---
 
