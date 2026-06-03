@@ -65,6 +65,7 @@ public class SecurityConfig {
             "/api/v1/tags",
             "/api/v1/referencias",
             "/api/v1/equipe",
+            "/api/v1/roadmaps",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/h2-console/**",
