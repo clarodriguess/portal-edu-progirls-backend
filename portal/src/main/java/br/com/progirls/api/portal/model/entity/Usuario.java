@@ -8,19 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "membros_equipe")
+@Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
-public class MembroEquipe extends EntidadeBase {
+public class Usuario extends EntidadeBase {
+
     @Column(nullable = false)
     private String nome;
+
+    @Column(name = "nome_usuario", unique = true, nullable = false)
+    private String nomeUsuario;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @Column(nullable = false)
-    private String cargo;
-    @Column(name = "foto_url", nullable = false)
-    private String fotoUrl;
-    @Column(name = "linkedin_url", nullable = false)
-    private String linkedinUrl;
-    @Column(name = "github_url", nullable = false)
-    private String githubUrl;
+    private String senha;
+
+    @Column(nullable = false)
+    private Boolean ativo;
 }

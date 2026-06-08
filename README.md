@@ -66,7 +66,9 @@ portal-edu-progirls-backend/
         │   ├── java/
         │   │   └── br/com/progirls/api/portal/
         │   │       ├── PortalApplication.java  # inicialização da aplicação Spring Boot
+        │   │       ├── config/                 # configurações (ex.: Spring Security)
         │   │       ├── controller/             # endpoints da API (camada web)
+        │   │       ├── security/               # autenticação (Basic Auth) + JWT
         │   │       ├── service/                # regras de negócio/orquestração
         │   │       ├── repository/             # acesso a dados (Spring Data)
         │   │       ├── model/
@@ -79,9 +81,8 @@ portal-edu-progirls-backend/
         │   │       │   │   ├── Tag.java
         │   │       │   │   ├── Tecnologia.java
         │   │       │   │   ├── MembroEquipe.java
-        │   │       │   │   └── ReferenciaExterna.java
-        │   │       │   │   └── Roadmap.java
-        │   │       │   │   └── NivelRoadmap.java        # enum de nível do roadmap
+        │   │       │   │   ├── ReferenciaExterna.java
+        │   │       │   │   └── Usuario.java
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
         │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
@@ -119,6 +120,7 @@ portal-edu-progirls-backend/
 
 | Método | Endpoint                | Descrição                                                       |
 |--------|-------------------------|-----------------------------------------------------------------|
+| POST   | /api/v1/auth/login      | Login via Basic Auth e geração de token JWT.                    |
 | GET    | /api/v1/conteudos       | Lista conteúdos com paginação e filtros (área, categoria, etc). |
 | GET    | /api/v1/conteudos/busca | Busca conteúdos por termo de texto (título/descrição).          |
 | GET    | /api/v1/areas           | Lista todas as áreas de conhecimento.                           |

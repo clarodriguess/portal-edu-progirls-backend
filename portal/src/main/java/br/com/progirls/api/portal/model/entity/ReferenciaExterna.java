@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "referencia_externa")
+@Table(name = "referencias_externas")
 @Getter
 @Setter
 @NoArgsConstructor
