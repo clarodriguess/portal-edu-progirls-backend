@@ -80,6 +80,8 @@ portal-edu-progirls-backend/
         │   │       │   │   ├── Tecnologia.java
         │   │       │   │   ├── MembroEquipe.java
         │   │       │   │   └── ReferenciaExterna.java
+        │   │       │   │   └── Roadmap.java
+        │   │       │   │   └── NivelRoadmap.java        # enum de nível do roadmap
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
         │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
@@ -90,6 +92,7 @@ portal-edu-progirls-backend/
         │   │       │       ├── referencia/
         │   │       │       ├── tag/
         │   │       │       └── tecnologia/
+        │   │       │       └── roadmap/        
         │   │       ├── mapper/                 # conversões entre entidades e DTOs (MapStruct)
         │   │       │   ├── AreaMapper.java
         │   │       │   ├── CategoriaMapper.java
@@ -98,6 +101,7 @@ portal-edu-progirls-backend/
         │   │       │   ├── ReferenciaExternaMapper.java
         │   │       │   ├── TagMapper.java
         │   │       │   └── TecnologiaMapper.java
+        │   │       │   └── RoadmapMapper.java
         │   │       └── exception/              # exceções + padronização de respostas de erro
         │   │           └── GlobalExceptionHandler.java
         │   └── resources/
