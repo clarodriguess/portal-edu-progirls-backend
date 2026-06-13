@@ -2,6 +2,7 @@ package br.com.progirls.api.portal.controller;
 
 import br.com.progirls.api.portal.model.dto.ErrorResponse;
 import br.com.progirls.api.portal.model.dto.PageResponseDTO;
+import br.com.progirls.api.portal.model.dto.roadmap.RoadmapDetalheResponseDTO;
 import br.com.progirls.api.portal.model.dto.roadmap.RoadmapResponseDTO;
 import br.com.progirls.api.portal.model.entity.NivelRoadmap;
 import br.com.progirls.api.portal.service.RoadmapService;
@@ -67,5 +68,21 @@ public class RoadmapController {
         if (size > maxPageSize) size = maxPageSize;
 
         return ResponseEntity.ok(roadmapService.listarRoadmaps(page, size, nivel));
+    }
+
+    @Operation(summary = "Detalhar roadmap", description = "Retorna os detalhes de um roadmap e seus conteúdos ordenados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Roadmap retornado com sucesso",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RoadmapDetalheResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Roadmap não encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<RoadmapDetalheResponseDTO> buscarRoadmapPorId(
+            @Parameter(description = "ID do roadmap") @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(roadmapService.buscarRoadmapPorId(id));
     }
 }
