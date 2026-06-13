@@ -2,6 +2,7 @@ package br.com.progirls.api.portal.service;
 
 import br.com.progirls.api.portal.mapper.RoadmapMapper;
 import br.com.progirls.api.portal.model.dto.PageResponseDTO;
+import br.com.progirls.api.portal.model.dto.roadmap.RoadmapDetalheResponseDTO;
 import br.com.progirls.api.portal.model.dto.roadmap.RoadmapResponseDTO;
 import br.com.progirls.api.portal.model.entity.NivelRoadmap;
 import br.com.progirls.api.portal.model.entity.Roadmap;
@@ -18,8 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -142,5 +145,42 @@ class RoadmapServiceTest {
         assertThat(resultado.getSize()).isEqualTo(5);
         assertThat(resultado.getTotalElements()).isEqualTo(10);
         assertThat(resultado.getTotalPages()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("Deve retornar detalhe do roadmap quando encontrado")
+    void deveRetornarDetalheDoRoadmapQuandoEncontrado() {
+        RoadmapDetalheResponseDTO detalheDTO = new RoadmapDetalheResponseDTO(
+                roadmap.getId(),
+                roadmap.getTitulo(),
+                roadmap.getDescricao(),
+                roadmap.getNivel(),
+                List.of()
+        );
+
+        when(roadmapRepository.findById(1L)).thenReturn(Optional.of(roadmap));
+        when(roadmapMapper.toDetalheDTO(roadmap)).thenReturn(detalheDTO);
+
+        RoadmapDetalheResponseDTO resultado = roadmapService.buscarRoadmapPorId(1L);
+
+        assertThat(resultado.id()).isEqualTo(1L);
+        assertThat(resultado.titulo()).isEqualTo("Trilha Backend Java");
+        assertThat(resultado.nivel()).isEqualTo(NivelRoadmap.INICIANTE);
+        assertThat(resultado.conteudos()).isEmpty();
+
+        verify(roadmapRepository).findById(1L);
+        verify(roadmapMapper).toDetalheDTO(roadmap);
+    }
+
+    @Test
+    @DisplayName("Deve lançar 404 quando roadmap não encontrado")
+    void deveLancar404QuandoRoadmapNaoEncontrado() {
+        when(roadmapRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> roadmapService.buscarRoadmapPorId(99L))
+                .isInstanceOf(ResponseStatusException.class);
+
+        verify(roadmapRepository).findById(99L);
+        verifyNoInteractions(roadmapMapper);
     }
 }
