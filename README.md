@@ -82,7 +82,10 @@ portal-edu-progirls-backend/
         │   │       │   │   ├── Tecnologia.java
         │   │       │   │   ├── MembroEquipe.java
         │   │       │   │   ├── ReferenciaExterna.java
-        │   │       │   │   └── Usuario.java
+        │   │       │   │   ├── Usuario.java
+        │   │       │   │   ├── Roadmap.java
+        │   │       │   │   ├── RoadmapConteudo.java
+        │   │       │   │   └── NivelRoadmap.java 
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
         │   │       │       ├── PageResponseDTO.java    # wrapper padrão de paginação
@@ -92,8 +95,11 @@ portal-edu-progirls-backend/
         │   │       │       ├── equipe/
         │   │       │       ├── referencia/
         │   │       │       ├── tag/
-        │   │       │       └── tecnologia/
-        │   │       │       └── roadmap/        
+        │   │       │       ├── tecnologia/ 
+        │   │       │       └── roadmap/
+        │   │       │         ├── RoadmapResponseDTO.java
+        │   │       │         ├── RoadmapDetalheResponseDTO.java
+        │   │       │         └── RoadmapConteudoResponseDTO.java      
         │   │       ├── mapper/                 # conversões entre entidades e DTOs (MapStruct)
         │   │       │   ├── AreaMapper.java
         │   │       │   ├── CategoriaMapper.java
@@ -310,7 +316,7 @@ Este projeto está sob a licença MIT.
 ## Contribuidores
 
 - **Tech Leader:** [Natália](https://github.com/nataliatsi)
-- **Backend:** [Nome](https://github.com/usuario)
+- **Backend:** [Clarisse Rodrigues](https://github.com/clarodriguess)
 
 <!-- Adicione:
 - Função (Backend, Tech Lead, etc.)

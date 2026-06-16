@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "roadmaps")
 @Getter
@@ -18,4 +20,8 @@ public class Roadmap extends EntidadeBase {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NivelRoadmap nivel;
+
+    @OneToMany(mappedBy = "roadmap", fetch = FetchType.LAZY)
+    @OrderBy("ordem ASC")
+    private List<RoadmapConteudo> conteudos;
 }
