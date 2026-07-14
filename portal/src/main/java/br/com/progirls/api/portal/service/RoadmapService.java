@@ -3,8 +3,10 @@ package br.com.progirls.api.portal.service;
 import br.com.progirls.api.portal.mapper.RoadmapMapper;
 import br.com.progirls.api.portal.model.dto.PageResponseDTO;
 import br.com.progirls.api.portal.model.dto.roadmap.RoadmapDetalheResponseDTO;
+import br.com.progirls.api.portal.model.dto.roadmap.RoadmapFiltroRequestDTO;
 import br.com.progirls.api.portal.model.dto.roadmap.RoadmapResponseDTO;
 import br.com.progirls.api.portal.model.entity.NivelRoadmap;
+import br.com.progirls.api.portal.model.entity.RoadmapSpecification;
 import br.com.progirls.api.portal.repository.RoadmapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,12 +22,13 @@ public class RoadmapService {
     private final RoadmapRepository roadmapRepository;
     private final RoadmapMapper roadmapMapper;
 
-    public PageResponseDTO<RoadmapResponseDTO> listarRoadmaps(int page, int size, NivelRoadmap nivel) {
+    public PageResponseDTO<RoadmapResponseDTO> listarRoadmaps(int page, int size, RoadmapFiltroRequestDTO filtro) {
         Pageable pageable = PageRequest.of(page, size);
 
-        var roadmaps = (nivel != null)
-                ? roadmapRepository.findByNivel(nivel, pageable)
-                : roadmapRepository.findAll(pageable);
+        var roadmaps = roadmapRepository.findAll(
+                RoadmapSpecification.comFiltros(filtro),
+                pageable
+        );
 
         return new PageResponseDTO<>(roadmaps.map(roadmapMapper::toDTO));
     }
