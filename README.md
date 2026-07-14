@@ -85,6 +85,7 @@ portal-edu-progirls-backend/
         │   │       │   │   ├── Usuario.java
         │   │       │   │   ├── Roadmap.java
         │   │       │   │   ├── RoadmapConteudo.java
+        │   │       │   │   ├── RoadmapSpecification.java
         │   │       │   │   └── NivelRoadmap.java 
         │   │       │   └── dto/                # DTOs de entrada/saída
         │   │       │       ├── ErrorResponse.java      # DTO padrão de erro
@@ -99,7 +100,8 @@ portal-edu-progirls-backend/
         │   │       │       └── roadmap/
         │   │       │         ├── RoadmapResponseDTO.java
         │   │       │         ├── RoadmapDetalheResponseDTO.java
-        │   │       │         └── RoadmapConteudoResponseDTO.java      
+        │   │       │         └── RoadmapConteudoResponseDTO.java  
+        │   │       │         └── RoadmapFiltroRequestDTO.java              
         │   │       ├── mapper/                 # conversões entre entidades e DTOs (MapStruct)
         │   │       │   ├── AreaMapper.java
         │   │       │   ├── CategoriaMapper.java
