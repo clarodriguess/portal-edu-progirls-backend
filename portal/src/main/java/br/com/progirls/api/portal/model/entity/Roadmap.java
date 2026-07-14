@@ -24,4 +24,12 @@ public class Roadmap extends EntidadeBase {
     @OneToMany(mappedBy = "roadmap", fetch = FetchType.LAZY)
     @OrderBy("ordem ASC")
     private List<RoadmapConteudo> conteudos;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "roadmap_tecnologia",
+            joinColumns = @JoinColumn(name = "roadmap_id"),
+            inverseJoinColumns = @JoinColumn(name = "tecnologia_id")
+    )
+    private List<Tecnologia> tecnologias;
 }
